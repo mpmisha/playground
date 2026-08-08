@@ -49,8 +49,10 @@ Add one entry to the hub's `games.json`:
   "tagline": "<one short line>",
   "icon": "<emoji>",
   "color": "<hex tile color>",
+  "image": "https://mpmisha.github.io/<game>/icons/icon-192.png",
   "url": "https://mpmisha.github.io/<game>/"
 }
 ```
 
-That's it — no code changes to the hub.
+Use `image` for the game's real app icon (falls back to the `icon` emoji on the
+tinted `color` tile when omitted).

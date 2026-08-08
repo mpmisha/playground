@@ -43,11 +43,14 @@ playground/
      "tagline": "Find the way out",
      "icon": "🐭",
      "color": "#7ac5a8",
+     "image": "https://mpmisha.github.io/maze/icons/icon-192.png",
      "url": "https://mpmisha.github.io/maze/"
    }
    ```
 
 4. Commit — the menu updates on next load (registry is fetched network-first).
+
+That's it — no code changes to the hub.
 
 ## Design rules (calm by default)
 

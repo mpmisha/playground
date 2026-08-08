@@ -21,8 +21,17 @@ function card(game) {
 
   const icon = document.createElement('div');
   icon.className = 'game-icon';
-  if (game.color) icon.style.background = game.color;
-  icon.textContent = game.icon || '🎮';
+  if (game.image) {
+    const img = document.createElement('img');
+    img.className = 'game-icon-img';
+    img.src = game.image;
+    img.alt = '';
+    img.loading = 'lazy';
+    icon.append(img);
+  } else {
+    if (game.color) icon.style.background = game.color;
+    icon.textContent = game.icon || '🎮';
+  }
 
   const name = document.createElement('div');
   name.className = 'game-name';
