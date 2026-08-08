@@ -15,9 +15,12 @@ function launchUrl(gameUrl) {
 }
 
 function card(game) {
+  const label = game.name || game.id;
   const a = document.createElement('a');
-  a.className = 'game-card';
+  a.className = 'game-tile';
   a.href = launchUrl(game.url);
+  a.setAttribute('aria-label', label);
+  a.title = label;
   a.addEventListener('click', (e) => {
     // Let modified / non-primary clicks fall through (open in new tab, etc.).
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
@@ -39,19 +42,7 @@ function card(game) {
     icon.textContent = game.icon || '🎮';
   }
 
-  const name = document.createElement('div');
-  name.className = 'game-name';
-  name.textContent = game.name || game.id;
-
-  a.append(icon, name);
-
-  if (game.tagline) {
-    const tag = document.createElement('p');
-    tag.className = 'game-tagline';
-    tag.textContent = game.tagline;
-    a.append(tag);
-  }
-
+  a.append(icon);
   return a;
 }
 
