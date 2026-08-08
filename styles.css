@@ -126,3 +126,62 @@ body {
 @media (max-width: 380px) {
   .game-grid { grid-template-columns: 1fr; }
 }
+
+/* In-app game player (full-screen iframe overlay). */
+.player {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-top);
+}
+
+.player[hidden] { display: none; }
+
+html.playing, html.playing body { overflow: hidden; }
+
+.player-bar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: calc(var(--safe-top) + 6px) 12px 6px;
+  background: var(--bg-top);
+}
+
+.player-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 14px 8px 8px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.player-back:active { transform: scale(0.96); }
+
+.player-back-arrow {
+  font-size: 24px;
+  line-height: 1;
+  margin-top: -2px;
+}
+
+.player-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-dim);
+}
+
+.player-frame {
+  flex: 1 1 auto;
+  width: 100%;
+  border: 0;
+  background: var(--bg-top);
+}

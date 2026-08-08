@@ -18,6 +18,12 @@ function card(game) {
   const a = document.createElement('a');
   a.className = 'game-card';
   a.href = launchUrl(game.url);
+  a.addEventListener('click', (e) => {
+    // Let modified / non-primary clicks fall through (open in new tab, etc.).
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    openPlayer(game);
+  });
 
   const icon = document.createElement('div');
   icon.className = 'game-icon';
@@ -68,6 +74,48 @@ async function loadGames() {
     empty.hidden = false;
   }
 }
+
+// ---- In-app player: run games in an iframe so an installed hub stays
+// standalone (no browser address bar). Same-origin, so this is seamless.
+const player = document.getElementById('player');
+const playerFrame = document.getElementById('player-frame');
+const playerTitle = document.getElementById('player-title');
+const playerBack = document.getElementById('player-back');
+let playerOpen = false;
+
+function openPlayer(game) {
+  playerTitle.textContent = game.name || '';
+  playerFrame.src = launchUrl(game.url);
+  player.hidden = false;
+  document.documentElement.classList.add('playing');
+  playerOpen = true;
+  // A history entry lets the phone's back gesture/button close the game
+  // instead of exiting the app.
+  history.pushState({ player: true }, '');
+}
+
+function closePlayer() {
+  if (!playerOpen) return;
+  playerOpen = false;
+  player.hidden = true;
+  playerFrame.src = 'about:blank';
+  document.documentElement.classList.remove('playing');
+}
+
+playerBack.addEventListener('click', () => {
+  if (history.state && history.state.player) history.back();
+  else closePlayer();
+});
+
+window.addEventListener('popstate', () => {
+  if (playerOpen) closePlayer();
+});
+
+// A game embedded in the player can ask to return to the menu.
+window.addEventListener('message', (e) => {
+  if (e.origin !== location.origin) return;
+  if (e.data && e.data.type === 'playground:back') playerBack.click();
+});
 
 loadGames();
 

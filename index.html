@@ -29,6 +29,18 @@
     <p class="hub-empty" id="hub-empty" hidden>No games yet.</p>
   </main>
 
+  <!-- In-app game player: keeps the installed PWA standalone (no address bar). -->
+  <div class="player" id="player" hidden>
+    <header class="player-bar">
+      <button class="player-back" id="player-back" aria-label="Back to games">
+        <span class="player-back-arrow" aria-hidden="true">‹</span>
+        <span>Games</span>
+      </button>
+      <span class="player-title" id="player-title"></span>
+    </header>
+    <iframe class="player-frame" id="player-frame" title="Game" allow="autoplay; fullscreen"></iframe>
+  </div>
+
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
