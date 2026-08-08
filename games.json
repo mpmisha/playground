@@ -1,0 +1,12 @@
+{
+  "games": [
+    {
+      "id": "blocks",
+      "name": "Block Grid",
+      "tagline": "Drop blocks, clear lines",
+      "icon": "\ud83e\udde9",
+      "color": "#6c7bd6",
+      "url": "https://mpmisha.github.io/block-grid-kids/"
+    }
+  ]
+}
