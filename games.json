@@ -35,6 +35,15 @@
       "color": "#52c966",
       "image": "https://mpmisha.github.io/snake/icons/icon-192.png",
       "url": "https://mpmisha.github.io/snake/"
+    },
+    {
+      "id": "slide-puzzle",
+      "name": "Slide Puzzle",
+      "tagline": "Slide the colors back into place",
+      "icon": "\ud83d\uddbc\ufe0f",
+      "color": "#5c78db",
+      "image": "https://mpmisha.github.io/slide-puzzle/icons/icon-192.png",
+      "url": "https://mpmisha.github.io/slide-puzzle/"
     }
   ]
 }
