@@ -17,6 +17,15 @@
       "color": "#57c770",
       "image": "https://mpmisha.github.io/block-breaker/icons/icon-192.png",
       "url": "https://mpmisha.github.io/block-breaker/"
+    },
+    {
+      "id": "bubble-pop",
+      "name": "Bubble Pop",
+      "tagline": "Aim, match, pop the bubbles",
+      "icon": "\ud83e\udee7",
+      "color": "#9966ed",
+      "image": "https://mpmisha.github.io/bubble-pop/icons/icon-192.png",
+      "url": "https://mpmisha.github.io/bubble-pop/"
     }
   ]
 }
