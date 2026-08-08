@@ -7,6 +7,13 @@
   --text-dim: rgba(244, 245, 255, 0.66);
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --gap: 18px;
+  --pad: 20px;
+  --max-w: 560px;
+  /* Set by JS from the game count: 2 columns (tiles ≈ 1/4) … 3 columns
+     (tiles ≈ 1/9, the smallest). --tracks centers a not-yet-full row. */
+  --cols: 2;
+  --tracks: 1;
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -26,26 +33,38 @@ body {
 }
 
 .hub {
-  max-width: 560px;
+  max-width: var(--max-w);
+  min-height: 100dvh;
   margin: 0 auto;
   padding:
-    calc(var(--safe-top) + 24px)
-    20px
-    calc(var(--safe-bottom) + 24px);
+    calc(var(--safe-top) + var(--pad))
+    var(--pad)
+    calc(var(--safe-bottom) + var(--pad));
+  display: flex;
+  flex-direction: column;
+  justify-content: safe center;
 }
 
 .game-grid {
+  /* Square tile side = one column of the usable width, so N columns exactly
+     fill the width. --cols drives the size; --tracks (= min(count, cols))
+     keeps a partial row centered. */
+  --cell: calc(
+    (min(100vw, var(--max-w)) - 2 * var(--pad) - (var(--cols) - 1) * var(--gap))
+    / var(--cols)
+  );
   list-style: none;
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(var(--tracks), var(--cell));
+  gap: var(--gap);
   justify-content: center;
 }
 
 .game-tile {
   display: block;
+  width: var(--cell);
   text-decoration: none;
   transition: transform 0.12s ease;
 }
@@ -58,11 +77,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 22px;
-  font-size: 44px;
+  border-radius: 20%;
+  font-size: calc(var(--cell) * 0.42);
   line-height: 1;
   overflow: hidden;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14), 0 6px 16px rgba(0, 0, 0, 0.22);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14), 0 8px 20px rgba(0, 0, 0, 0.24);
 }
 
 .game-icon-img {

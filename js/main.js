@@ -57,6 +57,13 @@ async function loadGames() {
       empty.hidden = false;
       return;
     }
+    // Tiles: 2 columns (≈ 1/4 of the page) for up to 4 games, then 3 columns
+    // (≈ 1/9, the smallest) beyond that. --tracks centers a partial last row.
+    const cols = games.length <= 4 ? 2 : 3;
+    const tracks = Math.min(games.length, cols);
+    const root = document.documentElement.style;
+    root.setProperty('--cols', String(cols));
+    root.setProperty('--tracks', String(tracks));
     const frag = document.createDocumentFragment();
     for (const game of games) frag.append(card(game));
     grid.append(frag);
