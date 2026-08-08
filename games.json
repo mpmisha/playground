@@ -8,6 +8,15 @@
       "color": "#6c7bd6",
       "image": "https://mpmisha.github.io/block-grid-kids/icons/icon-192.png",
       "url": "https://mpmisha.github.io/block-grid-kids/"
+    },
+    {
+      "id": "breaker",
+      "name": "Block Breaker",
+      "tagline": "Bounce the ball, break the bricks",
+      "icon": "\ud83e\uddf1",
+      "color": "#57c770",
+      "image": "https://mpmisha.github.io/block-breaker/icons/icon-192.png",
+      "url": "https://mpmisha.github.io/block-breaker/"
     }
   ]
 }
