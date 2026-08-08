@@ -26,6 +26,15 @@
       "color": "#9966ed",
       "image": "https://mpmisha.github.io/bubble-pop/icons/icon-192.png",
       "url": "https://mpmisha.github.io/bubble-pop/"
+    },
+    {
+      "id": "snake",
+      "name": "Snake",
+      "tagline": "Steer the snake, munch treats, grow",
+      "icon": "\ud83d\udc0d",
+      "color": "#52c966",
+      "image": "https://mpmisha.github.io/snake/icons/icon-192.png",
+      "url": "https://mpmisha.github.io/snake/"
     }
   ]
 }
