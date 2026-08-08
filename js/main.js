@@ -117,6 +117,47 @@ window.addEventListener('message', (e) => {
 
 loadGames();
 
+// ---- Global settings (shared with every game via same-origin localStorage).
+// Games read `soundEnabled` / `hapticsEnabled` live, so toggles here apply to
+// the running game on its next sound — no reload needed.
+const SETTINGS_KEYS = { sound: 'soundEnabled', haptics: 'hapticsEnabled' };
+const readBool = (key, fallback) => {
+  const v = localStorage.getItem(key);
+  return v === null ? fallback : v === 'true';
+};
+
+const settingsOverlay = document.getElementById('settings-overlay');
+const hubGear = document.getElementById('hub-gear');
+const toggleSound = document.getElementById('toggle-sound');
+const toggleHaptics = document.getElementById('toggle-haptics');
+
+function syncSettingsUi() {
+  toggleSound.classList.toggle('on', readBool(SETTINGS_KEYS.sound, true));
+  toggleHaptics.classList.toggle('on', readBool(SETTINGS_KEYS.haptics, true));
+}
+
+hubGear.addEventListener('click', () => {
+  syncSettingsUi();
+  settingsOverlay.hidden = false;
+});
+
+function closeSettings() { settingsOverlay.hidden = true; }
+
+toggleSound.addEventListener('click', () => {
+  const next = !readBool(SETTINGS_KEYS.sound, true);
+  localStorage.setItem(SETTINGS_KEYS.sound, String(next));
+  toggleSound.classList.toggle('on', next);
+});
+
+toggleHaptics.addEventListener('click', () => {
+  const next = !readBool(SETTINGS_KEYS.haptics, true);
+  localStorage.setItem(SETTINGS_KEYS.haptics, String(next));
+  toggleHaptics.classList.toggle('on', next);
+});
+
+document.getElementById('btn-close').addEventListener('click', closeSettings);
+settingsOverlay.querySelector('[data-dismiss="settings"]').addEventListener('click', closeSettings);
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./service-worker.js').catch(() => {});
