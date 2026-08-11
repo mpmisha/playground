@@ -44,6 +44,15 @@
       "color": "#5c78db",
       "image": "https://mpmisha.github.io/slide-puzzle/icons/icon-192.png",
       "url": "https://mpmisha.github.io/slide-puzzle/"
+    },
+    {
+      "id": "2048",
+      "name": "2048",
+      "tagline": "Slide tiles, merge the numbers",
+      "icon": "\ud83d\udd22",
+      "color": "#9966ed",
+      "image": "https://mpmisha.github.io/2048/icons/icon-192.png",
+      "url": "https://mpmisha.github.io/2048/"
     }
   ]
 }
