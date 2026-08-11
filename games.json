@@ -53,6 +53,15 @@
       "color": "#9966ed",
       "image": "https://mpmisha.github.io/2048/icons/icon-192.png",
       "url": "https://mpmisha.github.io/2048/"
+    },
+    {
+      "id": "memory",
+      "name": "Memory Match",
+      "tagline": "Flip the cards, find the pairs",
+      "icon": "\ud83c\udccf",
+      "color": "#5c69bf",
+      "image": "https://mpmisha.github.io/memory/icons/icon-192.png",
+      "url": "https://mpmisha.github.io/memory/"
     }
   ]
 }
