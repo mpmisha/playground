@@ -2,18 +2,23 @@
 // under mpmisha.github.io has its own independent service worker, so the hub
 // never caches game code. We keep the menu working offline and always try the
 // network first for the registry so newly added games appear promptly.
-const CACHE = 'playground-v6';
+const CACHE = 'playground-v8';
 
 const SHELL = [
   './',
   './index.html',
   './styles.css',
   './js/main.js',
+  './js/i18n.js',
   './manifest.webmanifest',
   './icons/icon-180.png',
   './icons/icon-192.png',
   './icons/icon-512.png',
 ];
+
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting();
+});
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -57,6 +62,19 @@ self.addEventListener('fetch', (event) => {
         caches.open(CACHE).then((cache) => cache.put(request, copy)).catch(() => {});
         return resp;
       }).catch(() => caches.match(request)),
+    );
+    return;
+  }
+
+  // Navigations: network-first so a fresh index.html (and thus the latest hub)
+  // is delivered whenever online; fall back to the cached shell offline.
+  if (request.mode === 'navigate') {
+    event.respondWith(
+      fetch(request).then((resp) => {
+        const copy = resp.clone();
+        caches.open(CACHE).then((cache) => cache.put(request, copy)).catch(() => {});
+        return resp;
+      }).catch(() => caches.match(request).then((c) => c || caches.match('./index.html'))),
     );
     return;
   }

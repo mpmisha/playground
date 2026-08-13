@@ -14,7 +14,7 @@
   <link rel="apple-touch-icon" href="icons/icon-180.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -30,17 +30,25 @@
   <div class="overlay" id="settings-overlay" hidden>
     <div class="scrim" data-dismiss="settings"></div>
     <div class="panel" role="dialog" aria-label="Settings">
-      <h2>Settings</h2>
-      <p class="panel-sub">Applies to every game</p>
+      <h2 id="settings-title">Settings</h2>
+      <p class="panel-sub" id="settings-sub">Applies to every game</p>
 
       <div class="row">
-        <span class="row-label">Sound</span>
+        <span class="row-label" id="label-sound">Sound</span>
         <button class="toggle" id="toggle-sound" role="switch"><span class="knob"></span></button>
       </div>
 
       <div class="row">
-        <span class="row-label">Vibration</span>
+        <span class="row-label" id="label-haptics">Vibration</span>
         <button class="toggle" id="toggle-haptics" role="switch"><span class="knob"></span></button>
+      </div>
+
+      <div class="row">
+        <span class="row-label" id="label-language">Language</span>
+        <div class="segmented" id="lang-chooser" role="group" aria-label="Language">
+          <button class="seg-btn" id="lang-en" data-lang="en">English</button>
+          <button class="seg-btn" id="lang-he" data-lang="he">עברית</button>
+        </div>
       </div>
 
       <button class="btn secondary" id="btn-close">Close</button>
@@ -52,7 +60,7 @@
     <header class="player-bar">
       <button class="player-back" id="player-back" aria-label="Back to games">
         <span class="player-back-arrow" aria-hidden="true">‹</span>
-        <span>Games</span>
+        <span id="player-back-label">Games</span>
       </button>
       <span class="player-title" id="player-title"></span>
     </header>
