@@ -62,6 +62,15 @@
       "color": "#5c69bf",
       "image": "https://mpmisha.github.io/memory/icons/icon-192.png",
       "url": "https://mpmisha.github.io/memory/"
+    },
+    {
+      "id": "music-tiles",
+      "name": "Music Tiles",
+      "tagline": "Tap the tiles, play the tune",
+      "icon": "\ud83c\udfb9",
+      "color": "#57c7c7",
+      "image": "https://mpmisha.github.io/music-tiles/icons/icon-192.png",
+      "url": "https://mpmisha.github.io/music-tiles/"
     }
   ]
 }
