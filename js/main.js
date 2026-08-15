@@ -210,6 +210,10 @@ function localizeHub() {
   document.getElementById('btn-close').textContent = t('close');
   document.getElementById('player-back-label').textContent = t('games');
 
+  // Share.
+  document.getElementById('label-share').textContent = t('shareTitle');
+  if (!shareBtnBusy) document.getElementById('btn-share').textContent = t('share');
+
   // Requests & feedback.
   document.getElementById('label-feedback').textContent = t('helpFeedback');
   document.getElementById('btn-suggest').textContent = t('suggestGame');
@@ -310,6 +314,59 @@ document.getElementById('btn-feedback').addEventListener('click', () => openFeed
 document.getElementById('feedback-cancel').addEventListener('click', closeFeedback);
 document.getElementById('feedback-send').addEventListener('click', submitFeedback);
 feedbackOverlay.querySelector('[data-dismiss="feedback"]').addEventListener('click', closeFeedback);
+
+// ---- Share the hub. Uses the native share sheet when available (mobile),
+// otherwise copies the link to the clipboard and confirms inline.
+let shareBtnBusy = false;
+let shareRevertTimer = 0;
+const shareBtn = document.getElementById('btn-share');
+
+function flashShareCopied() {
+  shareBtnBusy = true;
+  shareBtn.textContent = t('shareCopied');
+  clearTimeout(shareRevertTimer);
+  shareRevertTimer = setTimeout(() => {
+    shareBtnBusy = false;
+    shareBtn.textContent = t('share');
+  }, 1600);
+}
+
+async function copyShareLink() {
+  try {
+    await navigator.clipboard.writeText(HUB_URL);
+  } catch {
+    // Fallback for browsers without the async clipboard API.
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = HUB_URL;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    } catch { /* ignore */ }
+  }
+  flashShareCopied();
+}
+
+shareBtn.addEventListener('click', async () => {
+  const shareData = { title: 'Playground', text: t('shareText'), url: HUB_URL };
+  if (navigator.share) {
+    try {
+      await navigator.share(shareData);
+      track('share', { method: 'native', lang: getLang() });
+      return;
+    } catch (e) {
+      // AbortError = user dismissed the sheet; do nothing further.
+      if (e && e.name === 'AbortError') return;
+      // Any other failure → fall through to clipboard copy.
+    }
+  }
+  await copyShareLink();
+  track('share', { method: 'copy', lang: getLang() });
+});
 
 // Resolve + apply the locale before rendering anything.
 applyLang(resolveLang());
