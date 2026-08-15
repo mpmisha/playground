@@ -112,7 +112,7 @@ function detectFromNavigator() {
     if (code.startsWith('he') || code.startsWith('iw')) return 'he';
     if (code.startsWith('en')) return 'en';
   }
-  return 'en';
+  return 'he';
 }
 
 // Resolution order: (1) URL ?lang= if valid → also persist; (2) stored 'lang';
@@ -132,7 +132,7 @@ export function resolveLang() {
   return detectFromNavigator();
 }
 
-let currentLang = 'en';
+let currentLang = 'he';
 
 export function getLang() { return currentLang; }
 
@@ -143,7 +143,7 @@ export function t(key) {
 
 // Apply the locale to the document chrome. `persist` writes an explicit choice.
 export function applyLang(code, persist = false) {
-  const lang = isValidLang(code) ? code : 'en';
+  const lang = isValidLang(code) ? code : 'he';
   currentLang = lang;
   if (persist) {
     try { localStorage.setItem('lang', lang); } catch { /* ignore */ }
