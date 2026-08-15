@@ -35,6 +35,13 @@ const STRINGS = {
       'Choose “Add to Home screen” (or “Install app”).',
       'Tap “Add” — the Playground icon appears on your home screen.',
     ],
+    helpFeedback: 'Requests & feedback',
+    suggestGame: '🎲 Suggest a game',
+    sendFeedback: '💬 Send feedback',
+    reqSubject: 'Playground: game request',
+    reqBody: "Hi! I'd love to see this game on Playground:\n\n",
+    fbSubject: 'Playground feedback',
+    fbBody: "Hi! Here's my feedback about Playground:\n\n",
   },
   he: {
     settings: 'הגדרות',
@@ -66,6 +73,13 @@ const STRINGS = {
       'בחרו ב“הוספה למסך הבית” (או “התקנת אפליקציה”).',
       'הקישו “הוספה” — הסמל של פלייגראונד יופיע במסך הבית.',
     ],
+    helpFeedback: 'בקשות ומשוב',
+    suggestGame: '🎲 הצעת משחק',
+    sendFeedback: '💬 שליחת משוב',
+    reqSubject: 'פלייגראונד: בקשת משחק',
+    reqBody: 'היי! אשמח לראות את המשחק הזה בפלייגראונד:\n\n',
+    fbSubject: 'משוב על פלייגראונד',
+    fbBody: 'היי! הנה המשוב שלי על פלייגראונד:\n\n',
   },
 };
 

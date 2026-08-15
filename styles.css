@@ -282,10 +282,33 @@ html.playing .hub-info { display: none; }
   font-size: 18px;
   font-weight: 700;
   color: #fff;
+  text-decoration: none;
   cursor: pointer;
 }
 .btn:active { transform: scale(0.97); }
 .btn.secondary { background: rgb(92, 107, 173); }
+/* Translucent action buttons (feedback / requests) — calm, not competing. */
+.btn.tertiary {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  font-size: 17px;
+}
+.btn.tertiary:active { background: rgba(255, 255, 255, 0.16); }
+
+/* Settings "Requests & feedback" section. */
+.settings-section {
+  margin-top: 6px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.section-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-dim);
+  text-align: start;
+  margin: 2px 2px 4px;
+}
+.settings-section .btn { margin-top: 10px; }
 
 /* Segmented language chooser (shared kit). */
 .segmented {

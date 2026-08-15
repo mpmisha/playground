@@ -7,6 +7,16 @@ import { resolveLang, applyLang, getLang, isValidLang, t } from './i18n.js';
 
 const HUB_URL = location.href.split('?')[0].split('#')[0];
 
+// Where game requests + feedback are delivered. Plain mailto — no backend, no
+// third-party form, no tracking; opens the user's own mail app pre-filled.
+const FEEDBACK_EMAIL = 'mpmisha@gmail.com';
+
+function feedbackMailto(subjectKey, bodyKey) {
+  return 'mailto:' + FEEDBACK_EMAIL
+    + '?subject=' + encodeURIComponent(t(subjectKey))
+    + '&body=' + encodeURIComponent(t(bodyKey));
+}
+
 function launchUrl(gameUrl) {
   try {
     const u = new URL(gameUrl, location.href);
@@ -210,6 +220,15 @@ function localizeHub() {
   document.getElementById('btn-close').textContent = t('close');
   document.getElementById('player-back-label').textContent = t('games');
 
+  // Requests & feedback (mailto — localized subject/body).
+  document.getElementById('label-feedback').textContent = t('helpFeedback');
+  const suggest = document.getElementById('btn-suggest');
+  const feedback = document.getElementById('btn-feedback');
+  suggest.textContent = t('suggestGame');
+  feedback.textContent = t('sendFeedback');
+  suggest.href = feedbackMailto('reqSubject', 'reqBody');
+  feedback.href = feedbackMailto('fbSubject', 'fbBody');
+
   // About / info panel.
   document.getElementById('info-title').textContent = t('about');
   document.getElementById('info-intro').textContent = t('aboutIntro');
@@ -304,6 +323,14 @@ langChooser.addEventListener('click', (e) => {
 
 document.getElementById('btn-close').addEventListener('click', closeSettings);
 settingsOverlay.querySelector('[data-dismiss="settings"]').addEventListener('click', closeSettings);
+
+// Aggregate signal only (which action) — the mailto navigation is untouched.
+document.getElementById('btn-suggest').addEventListener('click', () => {
+  track('feedback_click', { kind: 'suggest_game', lang: getLang() });
+});
+document.getElementById('btn-feedback').addEventListener('click', () => {
+  track('feedback_click', { kind: 'feedback', lang: getLang() });
+});
 
 // ---- About / info overlay.
 const infoOverlay = document.getElementById('info-overlay');
