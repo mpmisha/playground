@@ -71,6 +71,15 @@
       "color": "#57c7c7",
       "image": "https://mpmisha.github.io/music-tiles/icons/icon-192.png",
       "url": "https://mpmisha.github.io/music-tiles/"
+    },
+    {
+      "id": "tic-tac-toe",
+      "name": "Tic-Tac-Toe",
+      "tagline": "Play X and O against the app",
+      "icon": "\u2b55",
+      "color": "#429ef7",
+      "image": "https://mpmisha.github.io/tic-tac-toe/icons/icon-192.png",
+      "url": "https://mpmisha.github.io/tic-tac-toe/"
     }
   ]
 }
