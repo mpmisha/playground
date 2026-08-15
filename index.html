@@ -54,8 +54,8 @@
 
       <div class="settings-section">
         <div class="section-label" id="label-feedback">Requests &amp; feedback</div>
-        <a class="btn tertiary" id="btn-suggest" href="#" rel="noopener">🎲 Suggest a game</a>
-        <a class="btn tertiary" id="btn-feedback" href="#" rel="noopener">💬 Send feedback</a>
+        <button class="btn tertiary" id="btn-suggest">🎲 Suggest a game</button>
+        <button class="btn tertiary" id="btn-feedback">💬 Send feedback</button>
       </div>
 
       <button class="btn secondary" id="btn-close">Close</button>
@@ -81,6 +81,23 @@
         </section>
       </div>
       <button class="btn secondary" id="info-close">Close</button>
+    </div>
+  </div>
+
+  <!-- In-app feedback / game request form → sent to App Insights via telemetry. -->
+  <div class="overlay" id="feedback-overlay" hidden>
+    <div class="scrim" data-dismiss="feedback"></div>
+    <div class="panel" role="dialog" aria-label="Feedback" id="feedback-dialog">
+      <h2 id="feedback-form-title">Send feedback</h2>
+      <div id="feedback-form">
+        <textarea class="feedback-text" id="feedback-text" rows="4" maxlength="1000"></textarea>
+        <p class="feedback-error" id="feedback-error" hidden></p>
+        <div class="btn-row">
+          <button class="btn secondary" id="feedback-cancel">Cancel</button>
+          <button class="btn primary" id="feedback-send">Send</button>
+        </div>
+      </div>
+      <p class="feedback-thanks" id="feedback-thanks" hidden>Thanks! 💜</p>
     </div>
   </div>
 

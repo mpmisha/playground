@@ -7,16 +7,6 @@ import { resolveLang, applyLang, getLang, isValidLang, t } from './i18n.js';
 
 const HUB_URL = location.href.split('?')[0].split('#')[0];
 
-// Where game requests + feedback are delivered. Plain mailto — no backend, no
-// third-party form, no tracking; opens the user's own mail app pre-filled.
-const FEEDBACK_EMAIL = 'mpmisha@gmail.com';
-
-function feedbackMailto(subjectKey, bodyKey) {
-  return 'mailto:' + FEEDBACK_EMAIL
-    + '?subject=' + encodeURIComponent(t(subjectKey))
-    + '&body=' + encodeURIComponent(t(bodyKey));
-}
-
 function launchUrl(gameUrl) {
   try {
     const u = new URL(gameUrl, location.href);
@@ -220,14 +210,14 @@ function localizeHub() {
   document.getElementById('btn-close').textContent = t('close');
   document.getElementById('player-back-label').textContent = t('games');
 
-  // Requests & feedback (mailto — localized subject/body).
+  // Requests & feedback.
   document.getElementById('label-feedback').textContent = t('helpFeedback');
-  const suggest = document.getElementById('btn-suggest');
-  const feedback = document.getElementById('btn-feedback');
-  suggest.textContent = t('suggestGame');
-  feedback.textContent = t('sendFeedback');
-  suggest.href = feedbackMailto('reqSubject', 'reqBody');
-  feedback.href = feedbackMailto('fbSubject', 'fbBody');
+  document.getElementById('btn-suggest').textContent = t('suggestGame');
+  document.getElementById('btn-feedback').textContent = t('sendFeedback');
+  document.getElementById('feedback-cancel').textContent = t('cancel');
+  document.getElementById('feedback-send').textContent = t('send');
+  document.getElementById('feedback-thanks').textContent = t('feedbackThanks');
+  applyFeedbackMode();
 
   // About / info panel.
   document.getElementById('info-title').textContent = t('about');
@@ -254,6 +244,72 @@ function localizeHub() {
   document.getElementById('lang-en').classList.toggle('active', getLang() === 'en');
   document.getElementById('lang-he').classList.toggle('active', getLang() === 'he');
 }
+
+// ---- In-app feedback / requests. An overlay form whose submission is sent to
+// App Insights through the shared telemetry pipe — no mailto, no third-party
+// form. (Respects the same telemetry opt-out / Do-Not-Track as everything else.)
+const feedbackOverlay = document.getElementById('feedback-overlay');
+const feedbackText = document.getElementById('feedback-text');
+const feedbackForm = document.getElementById('feedback-form');
+const feedbackThanks = document.getElementById('feedback-thanks');
+const feedbackError = document.getElementById('feedback-error');
+let feedbackKind = 'feedback';
+let feedbackThanksTimer = 0;
+
+function applyFeedbackMode() {
+  const suggest = feedbackKind === 'suggest_game';
+  const title = suggest ? t('feedbackFormTitleSuggest') : t('feedbackFormTitleFeedback');
+  document.getElementById('feedback-form-title').textContent = title;
+  document.getElementById('feedback-dialog').setAttribute('aria-label', title);
+  feedbackText.setAttribute(
+    'placeholder',
+    suggest ? t('feedbackPlaceholderSuggest') : t('feedbackPlaceholderFeedback'),
+  );
+}
+
+function openFeedback(kind) {
+  feedbackKind = kind;
+  clearTimeout(feedbackThanksTimer);
+  applyFeedbackMode();
+  feedbackText.value = '';
+  feedbackError.hidden = true;
+  feedbackForm.hidden = false;
+  feedbackThanks.hidden = true;
+  // Step out of Settings into the form (avoids stacked scrims).
+  document.getElementById('settings-overlay').hidden = true;
+  feedbackOverlay.hidden = false;
+  setTimeout(() => { try { feedbackText.focus(); } catch { /* ignore */ } }, 60);
+}
+
+function closeFeedback() {
+  clearTimeout(feedbackThanksTimer);
+  feedbackOverlay.hidden = true;
+}
+
+function submitFeedback() {
+  const msg = feedbackText.value.trim();
+  if (!msg) {
+    feedbackError.textContent = t('feedbackEmpty');
+    feedbackError.hidden = false;
+    try { feedbackText.focus(); } catch { /* ignore */ }
+    return;
+  }
+  track('feedback', {
+    kind: feedbackKind,
+    lang: getLang(),
+    message: msg.slice(0, 1000),
+  }, { message_length: msg.length });
+  // A fire-and-forget beacon has no response — optimistically thank the user.
+  feedbackForm.hidden = true;
+  feedbackThanks.hidden = false;
+  feedbackThanksTimer = setTimeout(closeFeedback, 1500);
+}
+
+document.getElementById('btn-suggest').addEventListener('click', () => openFeedback('suggest_game'));
+document.getElementById('btn-feedback').addEventListener('click', () => openFeedback('feedback'));
+document.getElementById('feedback-cancel').addEventListener('click', closeFeedback);
+document.getElementById('feedback-send').addEventListener('click', submitFeedback);
+feedbackOverlay.querySelector('[data-dismiss="feedback"]').addEventListener('click', closeFeedback);
 
 // Resolve + apply the locale before rendering anything.
 applyLang(resolveLang());
@@ -323,14 +379,6 @@ langChooser.addEventListener('click', (e) => {
 
 document.getElementById('btn-close').addEventListener('click', closeSettings);
 settingsOverlay.querySelector('[data-dismiss="settings"]').addEventListener('click', closeSettings);
-
-// Aggregate signal only (which action) — the mailto navigation is untouched.
-document.getElementById('btn-suggest').addEventListener('click', () => {
-  track('feedback_click', { kind: 'suggest_game', lang: getLang() });
-});
-document.getElementById('btn-feedback').addEventListener('click', () => {
-  track('feedback_click', { kind: 'feedback', lang: getLang() });
-});
 
 // ---- About / info overlay.
 const infoOverlay = document.getElementById('info-overlay');

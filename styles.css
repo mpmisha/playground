@@ -287,6 +287,7 @@ html.playing .hub-info { display: none; }
 }
 .btn:active { transform: scale(0.97); }
 .btn.secondary { background: rgb(92, 107, 173); }
+.btn.primary { background: rgb(87, 199, 112); }
 /* Translucent action buttons (feedback / requests) — calm, not competing. */
 .btn.tertiary {
   background: rgba(255, 255, 255, 0.1);
@@ -372,6 +373,40 @@ html.playing .hub-info { display: none; }
 .info-device-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
 .info-steps { margin: 0; padding-inline-start: 20px; }
 .info-steps li { font-size: 15px; line-height: 1.55; margin: 3px 0; }
+
+/* In-app feedback / request form. */
+.feedback-text {
+  width: 100%;
+  min-height: 116px;
+  resize: vertical;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.4;
+  padding: 12px 14px;
+  margin-top: 4px;
+  text-align: start;
+}
+.feedback-text::placeholder { color: var(--text-dim); }
+.feedback-text:focus { outline: none; border-color: rgba(255, 255, 255, 0.4); }
+.feedback-error {
+  margin: 8px 2px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgb(237, 102, 107);
+  text-align: start;
+}
+.btn-row { display: flex; gap: 10px; }
+.btn-row .btn { margin-top: 16px; }
+.feedback-thanks {
+  font-size: 22px;
+  font-weight: 800;
+  color: rgb(87, 199, 112);
+  margin: 20px 0 6px;
+}
 
 /* RTL mirroring for pinned chrome. Gameplay/tiles stay orientation-neutral. */
 :root[dir="rtl"] .hub-gear {

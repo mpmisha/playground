@@ -2,7 +2,7 @@
 // under mpmisha.github.io has its own independent service worker, so the hub
 // never caches game code. We keep the menu working offline and always try the
 // network first for the registry so newly added games appear promptly.
-const CACHE = 'playground-v12';
+const CACHE = 'playground-v13';
 
 const SHELL = [
   './',
@@ -80,12 +80,15 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Shell: cache-first.
+  // Same-origin assets (css / js / icons): network-first, so the whole shell
+  // updates together and can never skew against the network-first index.html
+  // (which previously produced new HTML rendered by stale cached CSS/JS).
+  // Falls back to the cached copy when offline.
   event.respondWith(
-    caches.match(request).then((cached) => cached || fetch(request).then((resp) => {
+    fetch(request).then((resp) => {
       const copy = resp.clone();
       caches.open(CACHE).then((cache) => cache.put(request, copy)).catch(() => {});
       return resp;
-    }).catch(() => cached)),
+    }).catch(() => caches.match(request)),
   );
 });
