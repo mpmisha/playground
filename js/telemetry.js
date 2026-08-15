@@ -123,6 +123,56 @@ track(R === 'hub' ? 'hub_open' : 'game_open', {
   display: displayMode(),
 });
 
+// ---- Error capture -------------------------------------------------------
+// Uncaught script errors + unhandled promise rejections are the signals that
+// matter most when the games run on friends' uncontrolled devices (iOS audio,
+// private-mode storage throws, etc.). Capped + deduped so a render-loop error
+// can never flood ingestion, and messages are trimmed to stay PII-free/small.
+const ERR_CAP = 8;
+let errCount = 0;
+const errSeen = new Set();
+
+function trim(s, n) {
+  s = String(s == null ? '' : s);
+  return s.length > n ? s.slice(0, n) : s;
+}
+
+function reportError(kind, message, source, line, col) {
+  if (errCount >= ERR_CAP) return;
+  const msg = trim(message, 300);
+  const src = trim(source, 200);
+  const sig = kind + '|' + msg + '|' + src + '|' + (line || '');
+  if (errSeen.has(sig)) return;
+  errSeen.add(sig);
+  errCount++;
+  track('error', {
+    game: R,
+    kind,
+    message: msg,
+    source: src,
+    lang: lang(),
+    display: displayMode(),
+    embedded: (window.parent !== window) ? 'yes' : 'no',
+  }, {
+    line: Number(line) || 0,
+    col: Number(col) || 0,
+  });
+}
+
+window.addEventListener('error', (e) => {
+  // Ignore resource-load failures (img/script/link) — they have no .message
+  // and .target is the element, not an ErrorEvent — to avoid noise.
+  if (e && e.message) {
+    reportError('error', e.message, e.filename, e.lineno, e.colno);
+  }
+}, true);
+
+window.addEventListener('unhandledrejection', (e) => {
+  let reason = e && e.reason;
+  if (reason && reason.message) reason = reason.message;
+  reportError('unhandledrejection', reason, '', 0, 0);
+});
+
 let ended = false;
 function sessionEnd() {
   if (ended) return;
