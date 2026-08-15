@@ -2,7 +2,7 @@
 // under mpmisha.github.io has its own independent service worker, so the hub
 // never caches game code. We keep the menu working offline and always try the
 // network first for the registry so newly added games appear promptly.
-const CACHE = 'playground-v8';
+const CACHE = 'playground-v9';
 
 const SHELL = [
   './',
@@ -10,6 +10,7 @@ const SHELL = [
   './styles.css',
   './js/main.js',
   './js/i18n.js',
+  './js/telemetry.js',
   './manifest.webmanifest',
   './icons/icon-180.png',
   './icons/icon-192.png',

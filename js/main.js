@@ -1,3 +1,4 @@
+import { track } from './telemetry.js';
 // Playground hub: loads the game registry and renders a calm menu.
 // Each game is an independent site; we launch it with ?hub=<this url> so the
 // game's "Back to Games" button returns here.
@@ -147,6 +148,7 @@ const playerBack = document.getElementById('player-back');
 let playerOpen = false;
 
 function openPlayer(game) {
+  track('game_launch', { game: game.id || game.name || '', lang: getLang() });
   playerTitle.textContent = game.name || '';
   playerFrame.src = launchUrl(game.url);
   player.hidden = false;
@@ -244,12 +246,14 @@ toggleSound.addEventListener('click', () => {
   const next = !readBool(SETTINGS_KEYS.sound, true);
   localStorage.setItem(SETTINGS_KEYS.sound, String(next));
   toggleSound.classList.toggle('on', next);
+  track('setting_changed', { setting: 'sound', value: String(next) });
 });
 
 toggleHaptics.addEventListener('click', () => {
   const next = !readBool(SETTINGS_KEYS.haptics, true);
   localStorage.setItem(SETTINGS_KEYS.haptics, String(next));
   toggleHaptics.classList.toggle('on', next);
+  track('setting_changed', { setting: 'haptics', value: String(next) });
 });
 
 // ---- Language chooser: persist explicit choice, apply to the hub live, and
@@ -261,6 +265,7 @@ langChooser.addEventListener('click', (e) => {
   const code = btn.dataset.lang;
   if (!isValidLang(code) || code === getLang()) return;
   applyLang(code, true); // persist explicit choice to localStorage 'lang'
+  track('setting_changed', { setting: 'language', value: code });
   localizeHub();
   // Update the launched game's URL param for the next launch is automatic
   // (launchUrl reads getLang()). Notify a currently-open game immediately.
