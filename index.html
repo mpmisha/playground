@@ -19,6 +19,7 @@
 </head>
 <body>
   <main class="hub">
+    <button class="hub-info" id="hub-info" aria-label="About">ℹ︎</button>
     <button class="hub-gear" id="hub-gear" aria-label="Settings">⚙︎</button>
 
     <ul class="game-grid" id="game-grid" aria-label="Games"></ul>
@@ -52,6 +53,28 @@
       </div>
 
       <button class="btn secondary" id="btn-close">Close</button>
+    </div>
+  </div>
+
+  <!-- About / info: what this is + how to install to the home screen. -->
+  <div class="overlay" id="info-overlay" hidden>
+    <div class="scrim" data-dismiss="info"></div>
+    <div class="panel info-panel" role="dialog" aria-label="About" id="info-dialog">
+      <h2 id="info-title">About</h2>
+      <div class="info-body">
+        <p class="info-intro" id="info-intro"></p>
+        <h3 class="info-h" id="info-install-title"></h3>
+        <p class="info-sub2" id="info-install-sub"></p>
+        <section class="info-device">
+          <div class="info-device-title" id="info-ios-title"></div>
+          <ol class="info-steps" id="info-ios-steps"></ol>
+        </section>
+        <section class="info-device">
+          <div class="info-device-title" id="info-android-title"></div>
+          <ol class="info-steps" id="info-android-steps"></ol>
+        </section>
+      </div>
+      <button class="btn secondary" id="info-close">Close</button>
     </div>
   </div>
 

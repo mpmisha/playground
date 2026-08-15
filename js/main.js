@@ -186,6 +186,19 @@ window.addEventListener('message', (e) => {
 // (game names) stay as authored. `dir`/`lang` are set by applyLang.
 let hubEmptyError = false;
 
+// Render an ordered list of localized steps (array from i18n) into <ol id>.
+function fillSteps(id, steps) {
+  const ol = document.getElementById(id);
+  if (!ol) return;
+  ol.textContent = '';
+  const list = Array.isArray(steps) ? steps : [];
+  for (const step of list) {
+    const li = document.createElement('li');
+    li.textContent = step;
+    ol.append(li);
+  }
+}
+
 function localizeHub() {
   document.getElementById('settings-title').textContent = t('settings');
   document.getElementById('settings-sub').textContent = t('appliesToEvery');
@@ -197,9 +210,22 @@ function localizeHub() {
   document.getElementById('btn-close').textContent = t('close');
   document.getElementById('player-back-label').textContent = t('games');
 
+  // About / info panel.
+  document.getElementById('info-title').textContent = t('about');
+  document.getElementById('info-intro').textContent = t('aboutIntro');
+  document.getElementById('info-install-title').textContent = t('installTitle');
+  document.getElementById('info-install-sub').textContent = t('installSub');
+  document.getElementById('info-ios-title').textContent = t('iosTitle');
+  document.getElementById('info-android-title').textContent = t('androidTitle');
+  document.getElementById('info-close').textContent = t('close');
+  fillSteps('info-ios-steps', t('iosSteps'));
+  fillSteps('info-android-steps', t('androidSteps'));
+
   const gear = document.getElementById('hub-gear');
   gear.setAttribute('aria-label', t('settings'));
   document.querySelector('.panel[role="dialog"]').setAttribute('aria-label', t('settingsAria'));
+  document.getElementById('hub-info').setAttribute('aria-label', t('about'));
+  document.getElementById('info-dialog').setAttribute('aria-label', t('about'));
   playerBack.setAttribute('aria-label', t('backToGames'));
 
   const empty = document.getElementById('hub-empty');
@@ -278,6 +304,14 @@ langChooser.addEventListener('click', (e) => {
 
 document.getElementById('btn-close').addEventListener('click', closeSettings);
 settingsOverlay.querySelector('[data-dismiss="settings"]').addEventListener('click', closeSettings);
+
+// ---- About / info overlay.
+const infoOverlay = document.getElementById('info-overlay');
+const hubInfo = document.getElementById('hub-info');
+function closeInfo() { infoOverlay.hidden = true; }
+hubInfo.addEventListener('click', () => { infoOverlay.hidden = false; });
+document.getElementById('info-close').addEventListener('click', closeInfo);
+infoOverlay.querySelector('[data-dismiss="info"]').addEventListener('click', closeInfo);
 
 if ('serviceWorker' in navigator) {
   // Robust self-update: promote a waiting worker, reload once the new worker

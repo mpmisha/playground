@@ -19,6 +19,22 @@ const STRINGS = {
     couldNotLoad: 'Could not load games.',
     backToGames: 'Back to games',
     settingsAria: 'Settings',
+    about: 'About',
+    aboutIntro: 'Playground is a cozy little collection of calm games for kids — no ads, no sign-ups, no timers, and no scary “game over”. Just tap a game and play.',
+    installTitle: 'Add it to your home screen',
+    installSub: 'so it opens like a real app — full-screen, and even works offline.',
+    iosTitle: 'On iPhone / iPad (Safari)',
+    iosSteps: [
+      'Tap the Share button (a square with an arrow ↑) at the bottom.',
+      'Scroll down and choose “Add to Home Screen”.',
+      'Tap “Add” — the Playground icon appears on your home screen.',
+    ],
+    androidTitle: 'On Android (Chrome)',
+    androidSteps: [
+      'Tap the menu (⋮) in the top corner of Chrome.',
+      'Choose “Add to Home screen” (or “Install app”).',
+      'Tap “Add” — the Playground icon appears on your home screen.',
+    ],
   },
   he: {
     settings: 'הגדרות',
@@ -34,6 +50,22 @@ const STRINGS = {
     couldNotLoad: 'לא ניתן לטעון משחקים.',
     backToGames: 'חזרה למשחקים',
     settingsAria: 'הגדרות',
+    about: 'אודות',
+    aboutIntro: 'פלייגראונד הוא אוסף קטן ונעים של משחקים רגועים לילדים — בלי פרסומות, בלי הרשמה, בלי טיימרים ובלי “סוף משחק” מפחיד. פשוט נגעו במשחק ושחקו.',
+    installTitle: 'הוסיפו למסך הבית',
+    installSub: 'כדי שהמשחק ייפתח כמו אפליקציה אמיתית — במסך מלא, ואפילו עובד בלי אינטרנט.',
+    iosTitle: 'באייפון / אייפד (Safari)',
+    iosSteps: [
+      'הקישו על כפתור השיתוף (ריבוע עם חץ ↑) בתחתית המסך.',
+      'גללו מטה ובחרו ב“הוספה למסך הבית”.',
+      'הקישו “הוספה” — הסמל של פלייגראונד יופיע במסך הבית.',
+    ],
+    androidTitle: 'באנדרואיד (Chrome)',
+    androidSteps: [
+      'הקישו על התפריט (⋮) בפינה העליונה של Chrome.',
+      'בחרו ב“הוספה למסך הבית” (או “התקנת אפליקציה”).',
+      'הקישו “הוספה” — הסמל של פלייגראונד יופיע במסך הבית.',
+    ],
   },
 };
 
