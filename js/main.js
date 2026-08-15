@@ -353,6 +353,8 @@ async function copyShareLink() {
 
 shareBtn.addEventListener('click', async () => {
   const shareData = { title: 'Playground', text: t('shareText'), url: HUB_URL };
+  // Count every tap on Share (whether or not the share is later completed).
+  track('share_click', { lang: getLang(), native: !!navigator.share });
   if (navigator.share) {
     try {
       await navigator.share(shareData);
