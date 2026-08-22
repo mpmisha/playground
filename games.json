@@ -80,6 +80,15 @@
       "color": "#429ef7",
       "image": "https://mpmisha.github.io/tic-tac-toe/icons/icon-192.png",
       "url": "https://mpmisha.github.io/tic-tac-toe/"
+    },
+    {
+      "id": "flappy-bird",
+      "name": "Flappy Bird",
+      "tagline": "Tap to fly through the gaps",
+      "icon": "\ud83d\udc26",
+      "color": "#fa9933",
+      "image": "https://mpmisha.github.io/Flappy-bird/icons/icon-192.png",
+      "url": "https://mpmisha.github.io/Flappy-bird/"
     }
   ]
 }
