@@ -89,6 +89,15 @@
       "color": "#f5c542",
       "image": "https://mpmisha.github.io/Flappy-bird/icons/icon-192.png",
       "url": "https://mpmisha.github.io/Flappy-bird/"
+    },
+    {
+      "id": "pong",
+      "name": "Pong",
+      "tagline": "Bounce it back, one or two players",
+      "icon": "\ud83c\udfd3",
+      "color": "#5c78db",
+      "image": "https://mpmisha.github.io/pong/icons/icon-192.png",
+      "url": "https://mpmisha.github.io/pong/"
     }
   ]
 }
