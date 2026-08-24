@@ -5,6 +5,14 @@ launches small, independent game sites.
 
 **Live:** https://mpmisha.github.io/playground/
 
+## Screenshots
+
+<p align="center">
+  <img src="docs/screenshots/games.png" width="30%" alt="The Playground games menu — a grid of colourful game tiles">
+  <img src="docs/screenshots/settings.png" width="30%" alt="The Playground settings panel with sound, vibration and language options">
+  <img src="docs/screenshots/about.png" width="30%" alt="The Playground about panel explaining how to add it to the home screen">
+</p>
+
 ## How it works
 
 - This repo is just the **menu**. Each game lives in its **own** public repo with
