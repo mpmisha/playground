@@ -1,0 +1,36 @@
+name: Validate Copilot assets
+
+on:
+  push:
+    paths:
+      - '.github/agents/playground-orchestrator.agent.md'
+      - '.github/agents/game-creator.agent.md'
+      - '.github/agents/playground-docs-keeper.agent.md'
+      - '.github/skills/new-game-orchestration/**'
+      - 'scripts/sync_copilot_assets.py'
+      - 'tests/test_copilot_assets.py'
+      - '.github/workflows/copilot-assets.yml'
+  pull_request:
+    paths:
+      - '.github/agents/playground-orchestrator.agent.md'
+      - '.github/agents/game-creator.agent.md'
+      - '.github/agents/playground-docs-keeper.agent.md'
+      - '.github/skills/new-game-orchestration/**'
+      - 'scripts/sync_copilot_assets.py'
+      - 'tests/test_copilot_assets.py'
+      - '.github/workflows/copilot-assets.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Test Playground Copilot snapshots
+        run: python3 -m unittest discover -s tests -p 'test_copilot_assets.py' -v

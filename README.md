@@ -34,8 +34,29 @@ playground/
 ├── service-worker.js     # offline shell + network-first registry
 ├── icons/                # hub app icons
 ├── shared/               # conventions shared by games (see ADDING_A_GAME.md)
-└── .github/workflows/    # GitHub Pages deploy
+├── docs/
+│   ├── agent-tooling.md  # canonical Copilot tooling guide
+│   └── screenshots/      # README images
+├── scripts/              # sync_copilot_assets.py: personal snapshot installer
+├── tests/                # test_copilot_assets.py: tooling validation
+└── .github/
+    ├── agents/           # editable source for three Playground agents
+    ├── skills/           # editable new-game-orchestration skill and resources
+    └── workflows/        # existing Pages deploy + separate agent-assets CI
 ```
+
+## Copilot tooling
+
+Playground-specific agents, the `new-game-orchestration` skill, and GitHub Actions
+workflow definitions are maintained **only in this repo**, through the normal
+branch/review flow. Personal `~/.copilot/agents` and `~/.copilot/skills` copies are
+install outputs for **global use**, including from independent game repos—not a
+second editable source.
+
+Run `python3 scripts/sync_copilot_assets.py --check` from this checkout to find
+drift. See [Agent tooling](docs/agent-tooling.md) for safe installation, explicit
+refresh, backups, and validation. Nothing auto-installs or live-syncs; GitHub
+Actions workflows remain repo-scoped.
 
 ## Adding a new game
 
