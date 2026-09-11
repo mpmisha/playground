@@ -107,6 +107,15 @@
       "color": "#ed666b",
       "image": "https://mpmisha.github.io/arrow-maze-kids/icons/icon-192.png",
       "url": "https://mpmisha.github.io/arrow-maze-kids/"
+    },
+    {
+      "id": "arrow-escape-kids",
+      "name": "Arrow Escape",
+      "tagline": "Clear the arrows, uncover the shape",
+      "icon": "➡️",
+      "color": "#6bb8ff",
+      "image": "https://mpmisha.github.io/arrow-escape-kids/icons/icon-192.png",
+      "url": "https://mpmisha.github.io/arrow-escape-kids/"
     }
   ]
 }
