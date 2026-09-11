@@ -22,6 +22,7 @@ import sync_copilot_assets as sync
 
 AGENT_FILES = (
     "playground-orchestrator.agent.md",
+    "playground-resercher.agent.md",
     "game-creator.agent.md",
     "playground-docs-keeper.agent.md",
 )
@@ -593,7 +594,7 @@ class CopilotSyncTests(unittest.TestCase):
             code, output = self.call("--apply")
         self.assertEqual(code, 2, output)
         self.assertIn("Original managed assets restored", output)
-        self.assertNotIn("All four Playground assets installed and verified", output)
+        self.assertNotIn("All five Playground assets installed and verified", output)
         self.assertEqual(contents(self.home / "agents"), before_agents)
         self.assertEqual(contents(self.home / "skills"), before_skills)
         run, = self.backup_runs()
@@ -635,7 +636,7 @@ class CopilotSyncTests(unittest.TestCase):
         self.assertEqual(code, 2, output)
         self.assertIn("ROLLBACK INCOMPLETE", output)
         self.assertIn("restore blocked", output)
-        self.assertNotIn("All four Playground assets installed and verified", output)
+        self.assertNotIn("All five Playground assets installed and verified", output)
         run, = self.backup_runs()
         self.assertIn(str(run), output)
         for name, data in originals.items():
@@ -721,7 +722,7 @@ class CanonicalDefinitionTests(unittest.TestCase):
                           Path("skills/new-game-orchestration")})
         self.assertEqual(sync.LEGACY_SKILL, Path("skills/New-Game-Orchestration"))
         sources = sync.load_sources(ROOT)
-        self.assertEqual(len(sources), 4)
+        self.assertEqual(len(sources), 5)
         for relative in sync.MANAGED:
             document = ROOT / ".github" / relative
             if relative == sync.SKILL:

@@ -25,6 +25,7 @@ machine-specific paths out of the canonical sources and this guide.
 | Repository source | Responsibility |
 | --- | --- |
 | [`.github/agents/playground-orchestrator.agent.md`](../.github/agents/playground-orchestrator.agent.md) | Coordinator: plans and delegates Playground work. |
+| [`.github/agents/playground-resercher.agent.md`](../.github/agents/playground-resercher.agent.md) | Pre-design researcher: builds evidence-linked game knowledge bases before new-game design or implementation. |
 | [`.github/agents/game-creator.agent.md`](../.github/agents/game-creator.agent.md) | Developer: implements games and hub changes. |
 | [`.github/agents/playground-docs-keeper.agent.md`](../.github/agents/playground-docs-keeper.agent.md) | Documentation-only knowledge-base owner. |
 | [`.github/skills/new-game-orchestration/SKILL.md`](../.github/skills/new-game-orchestration/SKILL.md) | Agent orchestration for creating a game; canonical name is `new-game-orchestration`, with `[New Game]`, `(new game)`, and natural-language new-game requests retained as triggers. |
@@ -33,9 +34,11 @@ machine-specific paths out of the canonical sources and this guide.
 | [`scripts/sync_copilot_assets.py`](../scripts/sync_copilot_assets.py) | Explicit, one-way repository → personal snapshot installer; Python 3.9+ standard library only. |
 | [`tests/test_copilot_assets.py`](../tests/test_copilot_assets.py) | Agent-assets and installer tests. |
 
-This migration keeps the three Playground agent roles above; it adds **no new
-Researcher agent**. The New Game skill is an agent workflow, not a GitHub Actions
-workflow or a replacement for Pages deployment.
+The four Playground agent roles above are canonical. The standalone
+`playground-resercher` agent is required by the New Game skill before Game Creator
+design or implementation; it produces research evidence and does not implement
+games or automatically launch downstream work. The New Game skill is an agent
+workflow, not a GitHub Actions workflow or a replacement for Pages deployment.
 
 The skill folder and its `name` must use lowercase kebab-case; keep both as
 `new-game-orchestration`.
@@ -44,7 +47,7 @@ The skill folder and its `name` must use lowercase kebab-case; keep both as
 
 - **Inside Playground:** native repository discovery uses
   `.github/agents/*.agent.md` and `.github/skills/<name>/SKILL.md`.
-- **Across repositories:** explicitly install the three agent files into
+- **Across repositories:** explicitly install the four agent files into
   `~/.copilot/agents/` with their existing filenames, and the whole
   `new-game-orchestration` skill directory, including bundled resources, into
   `~/.copilot/skills/`. Repository discovery alone does not provide this global

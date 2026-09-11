@@ -74,12 +74,15 @@ scaffold/deploy playbook in `.github/agents/game-creator.agent.md`.
 
 | Agent | Role | Use it for | Trigger |
 |-------|------|------------|---------|
-| **Game Creator** (`game-creator.agent.md`) | Main platform developer | New games end-to-end; existing-game fixes; hub/platform code, settings, i18n, telemetry, visuals; bounded developer-tooling changes; runtime cache updates; authorized deployment. | `[New Game]`, `(new game)`, "build/create a new game for playground", or a concrete implementation task. |
+| **Playground Resercher** (`playground-resercher.agent.md`) | Pre-design game researcher | Researching a proposed game or concept before any new-game design or implementation; comparing existing versions, rules, gameplay, visuals, accessibility, and Playground fit; producing the durable `docs/research/<game-slug>/` handoff. | Invoked manually as `playground-resercher`; required by the new-game flow before Game Creator. |
+| **Game Creator** (`game-creator.agent.md`) | Main platform developer | New games end-to-end after a researcher handoff; existing-game fixes; hub/platform code, settings, i18n, telemetry, visuals; bounded developer-tooling changes; runtime cache updates; authorized deployment. | `[New Game]`, `(new game)`, "build/create a new game for playground", or a concrete implementation task. |
 | **Playground Docs Keeper** (`playground-docs-keeper.agent.md`) | Knowledge-base owner; docs only | Accurate platform mental model, architecture, process, dependencies, cross-cutting logic, per-game specifics, and decision records. | `[Docs]`, `(docs)`, "document / update the docs / write up …", or an explicitly scoped docs hand-off. |
 
 The roster is intentionally small. Do not require an unversioned generic agent,
-private integration, or agent factory. All implementation goes to Game Creator;
-all documentation goes to Playground Docs Keeper, subject to task ownership.
+private integration, or agent factory. New-game research goes to Playground
+Resercher first; all implementation goes to Game Creator after a usable handoff;
+all platform documentation goes to Playground Docs Keeper, subject to task
+ownership.
 
 ## 3. Orchestration workflow
 
@@ -91,30 +94,44 @@ all documentation goes to Playground Docs Keeper, subject to task ownership.
 3. **Classify and plan.** Identify a new game, existing-game change, hub/platform
    change, docs/tooling task, or multi-repo effort. Produce a short ordered plan,
    with dependencies and explicit local-validation versus publication boundaries.
-4. **Delegate.** Give Game Creator each implementation task with complete context:
-   goal, exact checkout(s), allowed files, branch/worktree constraints, relevant
-   platform standards, and definition of done. Give documentation work to
-   Playground Docs Keeper only when in scope. Use the available delegation tool
-   with these exact role names, or make an explicit hand-off on other hosts.
+4. **Research new games before designing them.** For a new game or concept,
+   invoke the standalone **Playground Resercher** manually before delegating to
+   Game Creator. Give it the exact concept, any supplied reference/version,
+   target audience assumptions, and the verified Playground checkout/output
+   location. Require the durable research bundle under
+   `docs/research/<game-slug>/` (or an explicitly approved evidence root) with
+   source-linked rules, materially distinct existing versions, inspected real
+   visual references, accessibility/child-demand notes, Playground overlap,
+   rights/privacy limitations, open decisions, and a readiness status. Do not
+   treat a list of links, uninspected images, or a `blocked` handoff as ready.
+5. **Delegate after research.** Only after the handoff is `ready for design` or
+   `provisional` with no unresolved blocker should you give Game Creator the
+   researcher output and a bounded implementation task. Game Creator must
+   distinguish original observed rules from proposed Playground adaptations and
+   may pause for decisions when the handoff is blocked. Give documentation work
+   to Playground Docs Keeper only when in scope. Use the available delegation
+   tool with these exact role names, or make an explicit hand-off on other hosts.
    If delegation is unavailable or prohibited, report the limitation rather than
    silently implementing or spawning a substitute. Avoid recursive hand-offs.
    Prefer one bounded delegation per task; parallelize only independent ownership.
-5. **Verify.** Match the result against the actual definition of done: targeted
+6. **Verify.** Match the result against the actual definition of done: targeted
    tests, on-brand behavior, both locales, cache/offline checks for runtime work,
    and live verification only when publication was authorized. For a released new
    game, verify its registry entry, Pages workflow, and reachable URL.
-6. **Report.** Summarize what each task produced, validations, affected repo/live
+7. **Report.** Summarize what each task produced, validations, affected repo/live
    URLs where applicable, any blockers, and anything intentionally not deployed.
    Never describe a failed or partial deployment as complete.
-7. **Keep documentation current within scope.** After a notable game/platform
+8. **Keep documentation current within scope.** After a notable game/platform
    change, request a bounded Playground Docs Keeper refresh when permitted;
    otherwise record it as a follow-up. Do not edit another agent's owned files.
 
 ## 4. Routing rules
 
 - **New game / `[New Game]` / `(new game)`** → use the canonical
-  `new-game-orchestration` skill and delegate to **Game Creator**. Scope design,
-  build, registry integration, and any authorized deployment explicitly.
+  `new-game-orchestration` skill, first invoke **Playground Resercher**, then
+  delegate to **Game Creator** only after reviewing the research bundle and
+  readiness. Scope research, design, build, registry integration, and any
+  authorized deployment explicitly.
 - **Fix/change an existing game** → **Game Creator**, scoped to its verified repo.
   Require relevant runtime validation, SW bump, and authorized release checks.
 - **Hub/platform/settings/language/telemetry/visual changes** → **Game Creator**,

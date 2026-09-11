@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""One-way snapshots of the four Playground-owned Copilot assets.
+"""One-way snapshots of the five Playground-owned Copilot assets.
 
 No flags means a read-only check. Exit codes: 0 = synchronized, 1 = drift,
 2 = invalid input or an I/O error. Sources are relative to this script, not cwd.
@@ -25,6 +25,7 @@ import tempfile
 SOURCE_ROOT = Path(__file__).resolve().parent.parent
 AGENTS = {
     "playground-orchestrator.agent.md": "Playground Orchestrator",
+    "playground-resercher.agent.md": "playground-resercher",
     "game-creator.agent.md": "Game Creator",
     "playground-docs-keeper.agent.md": "Playground Docs Keeper",
 }
@@ -106,9 +107,24 @@ def validate_definition(data: bytes, name: str, path: Path, *, skill=False) -> N
     if lines[:3] != prefix or "---" not in lines[3:]:
         raise AssetError(f"Malformed definition {path}: expected name '{name}' and folded description")
     end = lines.index("---", 3)
-    description = lines[3:end]
+    frontmatter = lines[3:end]
+    description = []
+    metadata = []
+    in_description = True
+    for line in frontmatter:
+        if in_description and line.startswith("  "):
+            description.append(line)
+        else:
+            in_description = False
+            metadata.append(line)
+    allowed_metadata = {
+        "disable-model-invocation: true",
+        "disable-model-invocation: false",
+        "user-invocable: true",
+        "user-invocable: false",
+    }
     if (not description or not any(line.strip() for line in description)
-            or any(not line.startswith("  ") for line in description)
+            or any(line not in allowed_metadata for line in metadata)
             or not "\n".join(lines[end + 1:]).strip()):
         raise AssetError(f"Malformed description/body: {path}")
     if (skill and len(lines) >= 500) or (not skill and len(text) > 30000):
@@ -363,7 +379,7 @@ def synchronize(root: Path, home: Path, *, apply=False) -> int:
     changes = [relative for relative in (LEGACY_SKILL, *MANAGED)
                if originals[relative] != expected[relative]]
     if not changes:
-        print("All four Playground assets are in sync; no legacy duplicate. No writes.")
+        print("All five Playground assets are in sync; no legacy duplicate. No writes.")
         return 0
     for relative in changes:
         status = "legacy duplicate" if relative == LEGACY_SKILL else (
@@ -373,7 +389,7 @@ def synchronize(root: Path, home: Path, *, apply=False) -> int:
         print("Read-only check; run with --apply to install snapshots with backups.")
         return 1
     apply_changes(root, home, sources, originals, changes, layout)
-    print("All four Playground assets installed and verified; no legacy duplicate.")
+    print("All five Playground assets installed and verified; no legacy duplicate.")
     return 0
 
 
