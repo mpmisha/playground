@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - '.github/agents/playground-orchestrator.agent.md'
+      - '.github/agents/playground-resercher.agent.md'
       - '.github/agents/game-creator.agent.md'
       - '.github/agents/playground-docs-keeper.agent.md'
       - '.github/skills/new-game-orchestration/**'
@@ -13,6 +14,7 @@ on:
   pull_request:
     paths:
       - '.github/agents/playground-orchestrator.agent.md'
+      - '.github/agents/playground-resercher.agent.md'
       - '.github/agents/game-creator.agent.md'
       - '.github/agents/playground-docs-keeper.agent.md'
       - '.github/skills/new-game-orchestration/**'

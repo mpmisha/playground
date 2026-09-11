@@ -36,6 +36,43 @@ Read existing knowledge-base notes if present; a checkout may only contain
 `docs/screenshots`. Fall back to `README.md`, `shared/ADDING_A_GAME.md`, and actual
 code rather than requiring or inventing missing Markdown documents.
 
+## Required research gate
+
+Every new game begins with the standalone **Playground Resercher** agent before
+design or implementation. Invoke it manually with the exact name
+`playground-resercher`; it is not an automatic trigger and must not be replaced
+by a generic web search or an uninspected image list.
+
+Give the researcher the proposed game/concept, supplied reference URLs or
+variants, audience/device assumptions, and the explicitly resolved Playground
+checkout/output location. Require a durable bundle at
+`docs/research/<game-slug>/` (or an approved evidence root outside the hub)
+containing:
+
+- an overview with scope, evidence coverage, catalog overlap, limitations, and
+  readiness;
+- original rules and gameplay, meaningful variants, edge cases, a worked example,
+  accessibility/child-demand findings, and touch/keyboard/RTL/orientation notes;
+- a comparison of materially distinct existing versions;
+- a source ledger with dates, provenance, confidence, and conflicts;
+- an annotated gallery of authentic, visually inspected screenshots or an honest
+  linked-only/unavailable record, plus `assets/manifest.json`;
+- a non-binding handoff separating essential mechanics, optional additions,
+  proposed Playground adaptations, tradeoffs, open decisions, and observable
+  acceptance considerations.
+
+Review the handoff before continuing:
+
+1. **Ready for design:** proceed to Game Creator with the bundle.
+2. **Provisional:** proceed only when the remaining gaps are non-blocking and
+   explicitly accepted in the task scope; pass every limitation to Game Creator.
+3. **Blocked:** stop the new-game flow and ask for the missing clarification,
+   evidence, rights decision, or output permission. Do not design or implement
+   around a blocked handoff.
+
+Research is evidence and preparation, not design approval. Preserve source
+attribution and rights restrictions; do not copy third-party assets into a game.
+
 ## What Game Creator owns
 
 **Game Creator**, defined in `.github/agents/game-creator.agent.md` in the hub,
@@ -69,24 +106,29 @@ holds the complete platform context and tokens. It:
 
 1. Clarify only genuine concept/scope ambiguity with one focused question.
    Identify exact game/hub locations, allowed files, and publication authority.
-2. Delegate one bounded implementation task to **Game Creator**, including the
-   idea, constraints, platform standards, branch/worktree rules, and definition
-   of done. Use the available agent hand-off tool or hand off explicitly by name.
-   If already acting as Game Creator, execute its scoped workflow rather than
-   delegating recursively. If delegation is unavailable or prohibited, report
-   that boundary; do not silently spawn a substitute or bypass task ownership.
-3. Track progress in the current session. No generic project-manager agent,
+2. Invoke **Playground Resercher** first and review its completed bundle against
+   the required research gate above. Keep the research bundle and its readiness
+   limitations attached to the next handoff.
+3. Delegate one bounded implementation task to **Game Creator** only after the
+   research gate passes, including the research bundle, idea, constraints,
+   platform standards, branch/worktree rules, and definition of done. Use the
+   available agent hand-off tool or hand off explicitly by name. If already
+   acting as Game Creator, execute its scoped workflow rather than delegating
+   recursively, but do not skip the research gate. If delegation is unavailable
+   or prohibited, report that boundary; do not silently spawn a substitute or
+   bypass task ownership.
+4. Track progress in the current session. No generic project-manager agent,
    external service, private MCP configuration, or additional specialist is a
    required dependency. Relay any focused clarification back to the user.
-4. Verify Game Creator's evidence against scope: syntax and gameplay checks,
+5. Verify Game Creator's evidence against scope: syntax and gameplay checks,
    both locales on a notched mobile viewport, chrome mirroring/no clipping,
    first-gesture audio, touch/portrait/offline, iframe return, and valid registry.
    Runtime changes need a suitable cache bump and complete precache list;
    **docs/agent metadata/tooling-only work needs neither an SW bump nor a deploy**.
-5. For an authorized release, require observed game/hub Actions results and live
+6. For an authorized release, require observed game/hub Actions results and live
    HTTP checks. Report exact failures and recovery steps, never partial success
    as a completed release. Do not claim a feature-branch push deployed Pages.
-6. Relay the final report: game repo URL, live game URL, hub URL, registry entry,
+7. Relay the final report: research bundle/readiness, game repo URL, live game URL, hub URL, registry entry,
    validations, publication status, and follow-ups. Suggest phone testing through
    **Add to Home Screen**. If a documentation refresh is requested and permitted,
    give **Playground Docs Keeper** a separate bounded hand-off; do not edit its files.

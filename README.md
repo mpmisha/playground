@@ -40,7 +40,7 @@ playground/
 ├── scripts/              # sync_copilot_assets.py: personal snapshot installer
 ├── tests/                # test_copilot_assets.py: tooling validation
 └── .github/
-    ├── agents/           # editable source for three Playground agents
+    ├── agents/           # editable source for four Playground agents
     ├── skills/           # editable new-game-orchestration skill and resources
     └── workflows/        # existing Pages deploy + separate agent-assets CI
 ```
